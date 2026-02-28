@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soup Curry SORA | 豚骨ベースのこってりスープカレー キッチンカー</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           CSS Variables & Base Styles
+        ========================================= */
+        :root {
+            --bg-color: #111111;
+            --main-color: #D35400; /* スパイシーなオレンジ */
+            --accent-color: #8E44AD; /* エキゾチックなパープル */
+            --text-light: #F5F5F5;
+            --text-muted: #BBBBBB;
+            --header-bg: rgba(17, 17, 17, 0.9);
+            --card-bg: #1A1A1A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* =========================================
+           Typography & Utilities
+        ========================================= */
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            color: var(--main-color);
+            text-shadow: 0 0 10px rgba(211, 84, 0, 0.3);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 0;
+        }
+
+        /* アニメーション用クラス */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ボタンデザイン */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-main {
+            background-color: var(--main-color);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4);
+        }
+
+        .btn-main:hover {
+            background-color: #e65c00;
+            box-shadow: 0 6px 20px rgba(211, 84, 0, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+        }
+
+        .btn-accent:hover {
+            background-color: #9b59b6;
+            box-shadow: 0 6px 20px rgba(142, 68, 173, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* =========================================
+           Header (Sticky)
+        ========================================= */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--main-color);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .nav-links a:hover {
+            color: var(--main-color);
+        }
+
+        /* =========================================
+           Hero Section (スープカレー主役Ver)
+        ========================================= */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 1rem 2rem; /* ヘッダー分の余白 */
+            background: radial-gradient(circle at center, #2a1100 0%, var(--bg-color) 70%);
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+            color: #fff;
+        }
+
+        .hero-catch {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #ffdeb3;
+            text-shadow: 0 0 10px rgba(211, 84, 0, 0.8);
+        }
+
+        /* スープカレーをドーンと見せる部分 */
+        .hero-visual {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 3rem;
+        }
+
+        /* スパイシーなオーラ（後光） */
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--main-color);
+            filter: blur(40px);
+            opacity: 0.6;
+            z-index: 0;
+            animation: pulse 3s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-visual img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--main-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* =========================================
+           About Section
+        ========================================= */
+        #about .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .truck-description {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-left: 4px solid var(--main-color);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        /* =========================================
+           Menu Section
+        ========================================= */
+        #menu {
+            background-color: #0a0a0a;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .menu-info {
+            padding: 1.5rem;
+        }
+
+        .menu-info h3 {
+            font-size: 1.2rem;
+            color: var(--main-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .options-container {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .options-box {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 3px solid var(--accent-color);
+        }
+
+        .options-box h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+        }
+
+        .options-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .spice-level {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 0.5rem;
+        }
+        .spice-num {
+            background: var(--main-color);
+            color: #fff;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* =========================================
+           Schedule Section
+        ========================================= */
+        .schedule-wrap {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .schedule-list li {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .schedule-date {
+            font-weight: bold;
+            color: var(--main-color);
+            font-size: 1.1rem;
+        }
+
+        .schedule-place {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        .insta-placeholder {
+            background-color: var(--card-bg);
+            border: 1px dashed #555;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border-radius: 8px;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* =========================================
+           Contact & SNS Section
+        ========================================= */
+        #contact {
+            background-color: #0a0a0a;
+            text-align: center;
+        }
+
+        .sns-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .sns-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            background-color: #333;
+        }
+        .sns-btn.ig:hover { background-color: #E1306C; }
+        .sns-btn.tw:hover { background-color: #1DA1F2; }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .contact-form button {
+            cursor: pointer;
+            border: none;
+        }
+
+        /* =========================================
+           Footer
+        ========================================= */
+        footer {
+            background-color: #000;
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* =========================================
+           Media Queries (PC向け対応)
+        ========================================= */
+        @media (min-width: 768px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            .hero-visual {
+                width: 350px;
+                height: 350px;
+            }
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+            #about .about-grid {
+                grid-template-columns: 1fr 1fr;
+                align-items: center;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            .schedule-wrap {
+                grid-template-columns: 1fr 1fr;
+            }
+            .schedule-list li {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .schedule-place {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="header-inner">
+            <div class="logo">SORA</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content fade-in">
+            <h1>Soup Curry SORA</h1>
+            <p class="hero-catch">
+                夜市に漂うスパイスの熱気。<br>
+                極上のこってり豚骨スープカレーをあなたに。
+            </p>
+            
+            <div class="hero-visual">
+                <img src="https://images.unsplash.com/photo-1633945535035-6450f393bce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="熱々の豚骨スープカレー">
+            </div>
+
+            <div class="hero-buttons">
+                <a href="#schedule" class="btn btn-main">今月の出店場所を見る</a>
+                <a href="#schedule" class="btn btn-accent">来月の出店場所を見る</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container fade-in">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-grid">
+                <div class="about-img">
+                    <img src="image_0.png" alt="Soup Curry SORAの東南アジア風キッチンカー" style="border-radius: 8px;">
+                </div>
+                <div class="about-text">
+                    <p>
+                        当店のスープカレーは、じっくりと時間をかけて煮込んだ<strong>濃厚な豚骨ベースのこってりスープ</strong>が自慢です。そこに数十種類のスパイスを独自配合し、ガツンとくる旨味と突き抜ける香りを実現しました。
+                    </p>
+                    <p>
+                        野外イベントの熱気に負けない、スパイス好きの五感を刺激する本格派の味わい。ゴロゴロとした大きな具材と一緒に、心も体も熱くなる一杯をお届けします。
+                    </p>
+                    
+                    <div class="truck-description">
+                        <strong>【目印は東南アジア風のキッチンカー】</strong><br>
+                        ベージュの軽トラックにこげ茶色の木造キッチン。東南アジアのナイトマーケットを思わせる温かい電球色の装飾と、大きな商品のタペストリーが目印です！<br>
+                        跳ね上げ式の窓からは、ピンクのキャップを被ったスタッフが笑顔でお迎えします。イベント会場で見かけたら、ぜひスパイスの香りに誘われてみてください。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container fade-in">
+            <h2 class="section-title">Menu</h2>
+            <div class="menu-grid">
+                
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="チキン・スープカレー">
+                    <div class="menu-info">
+                        <h3>チキン・スープカレー</h3>
+                        <div class="price">¥1,200</div>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            香ばしくローストした鶏モモ肉に、彩り豊かな盛沢山の野菜、そして定番のゆで卵をトッピング。豚骨スパイススープとの相性抜群な王道の一品です。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1569058242253-12a84a60117d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="鶏むね唐揚げ・スープカレー">
+                    <div class="menu-info">
+                        <h3>鶏むね唐揚げ・スープカレー</h3>
+                        <div class="price">¥1,200</div>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            サクッと揚げたヘルシーな鶏むね肉の唐揚げを豪快にオン。スープを吸った衣の旨味と、たっぷり野菜の食感がクセになるボリューム満点メニュー。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="options-container fade-in">
+                <div class="options-box">
+                    <h4>Topping (トッピング)</h4>
+                    <ul class="options-list">
+                        <li><span>とろけるチーズ</span> <span>+¥150</span></li>
+                        <li><span>増しブロッコリー</span> <span>+¥100</span></li>
+                        <li><span>ゆで玉子（追加）</span> <span>+¥100</span></li>
+                    </ul>
+                </div>
+                
+                <div class="options-box">
+                    <h4>Spice Level (辛さ)</h4>
+                    <div>
+                        <div class="spice-level"><span class="spice-num" style="background: #555;">1</span> <span>1辛：市販の中辛レベル</span></div>
+                        <div class="spice-level"><span class="spice-num" style="background: #d35400;">2</span> <span>2辛：スパイス好きにおすすめ</span></div>
+                        <div class="spice-level"><span class="spice-num" style="background: #e62e00;">3</span> <span>3辛：大辛！汗が吹き出します</span></div>
+                        <div class="spice-level"><span class="spice-num" style="background: #8e44ad;">4</span> <span>4辛：マニア向け激辛領域</span></div>
+                        <div class="spice-level"><span class="spice-num" style="background: #000; border: 1px solid #ff0000; color: #ff0000;">5</span> <span>5辛：自己責任でお願いします...</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="schedule">
+        <div class="container fade-in">
+            <h2 class="section-title">Schedule & Location</h2>
+            <div class="schedule-wrap">
+                
+                <div class="schedule-info">
+                    <h3 style="margin-bottom: 1rem;">今週の出店スケジュール</h3>
+                    <ul class="schedule-list">
+                        <li>
+                            <span class="schedule-date">10/14 (土) 10:00 - 18:00</span>
+                            <span class="schedule-place">〇〇公園 スパイスフェスティバル</span>
+                        </li>
+                        <li>
+                            <span class="schedule-date">10/15 (日) 10:00 - 17:00</span>
+                            <span class="schedule-place">△△広場 アジアンナイトマーケット</span>
+                        </li>
+                        <li>
+                            <span class="schedule-date">10/18 (水) 11:30 - 14:00</span>
+                            <span class="schedule-place">□□オフィスビル前 ランチ出店</span>
+                        </li>
+                        <li>
+                            <span class="schedule-date">10/21 (土) 10:00 - 20:00</span>
+                            <span class="schedule-place">××スタジアム スポーツイベント</span>
+                        </li>
+                    </ul>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">
+                        ※天候やスープの完売により、営業時間が変更になる場合がございます。<br>
+                        最新の状況はInstagramをご確認ください。
+                    </p>
+                </div>
+
+                <div class="insta-embed">
+                    <div class="insta-placeholder">
+                        <div>
+                            <p style="font-size: 2rem; margin-bottom: 0.5rem;">📷</p>
+                            <p>Instagram Widget Placeholder</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.5rem;">実際の運用時にここにInstagramの<br>フィード埋め込みコードを配置します。</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container fade-in">
+            <h2 class="section-title">Contact & SNS</h2>
+            
+            <div class="sns-buttons">
+                <a href="#" class="sns-btn ig">Instagram</a>
+                <a href="#" class="sns-btn tw">X (Twitter)</a>
+            </div>
+
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">イベントへの出店依頼はこちら</h3>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('送信機能はバックエンドの実装が必要です。');">
+                <input type="text" placeholder="お名前 / 企業名" required>
+                <input type="email" placeholder="メールアドレス" required>
+                <textarea rows="5" placeholder="イベント概要・出店希望日などをお書きください" required></textarea>
+                <button type="submit" class="btn btn-main" style="width: 100%; max-width: none;">送信する</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Soup Curry SORA. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // スムーススクロール
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.getElementById('header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // フェードインアニメーション
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -100px 0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('appear');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            fadeElements.forEach(el => {
+                observer.observe(el);
+            });
+
+            // ヘッダー背景色変更
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.style.backgroundColor = 'rgba(17, 17, 17, 0.98)';
+                    header.style.boxShadow = '0 2px 10px rgba(0,0,0,0.5)';
+                } else {
+                    header.style.backgroundColor = 'rgba(17, 17, 17, 0.9)';
+                    header.style.boxShadow = 'none';
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
