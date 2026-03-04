@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soup Curry SORA | 豚骨ベースのこってり系スープカレー</title>
+  <style>
+    /* =========================================
+       CSS Variables & Base Styles
+       ========================================= */
+    :root {
+      --color-bg: #111111;
+      --color-main: #D35400;
+      --color-accent: #8E44AD;
+      --color-text: #F5F5F5;
+      --color-text-muted: #B0B0B0;
+      --font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      --header-height: 60px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* =========================================
+       Typography & Utility Classes
+       ========================================= */
+    h1, h2, h3 {
+      margin: 0 0 1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--color-main);
+      display: inline-block;
+      padding-bottom: 0.5rem;
+    }
+
+    .section-title-wrapper {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    p {
+      margin: 0 0 1.5rem;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 0;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: var(--color-main);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(211, 84, 0, 0.4);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn:hover {
+      background-color: #E67E22;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(211, 84, 0, 0.6);
+    }
+
+    .btn-accent {
+      background-color: var(--color-accent);
+      box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+    }
+
+    .btn-accent:hover {
+      background-color: #9B59B6;
+      box-shadow: 0 6px 20px rgba(142, 68, 173, 0.6);
+    }
+
+    /* Fade-in Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================
+       Header
+       ========================================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--header-height);
+      background-color: rgba(17, 17, 17, 0.95);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5%;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--color-main);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--color-main);
+    }
+
+    /* =========================================
+       Hero Section
+       ========================================= */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: calc(var(--header-height) + 2rem) 1rem 2rem;
+      background: linear-gradient(to bottom, rgba(17,17,17,0.8), rgba(17,17,17,1)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+    }
+
+    .hero-halo {
+      position: relative;
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+
+    .hero-halo::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180%;
+      height: 180%;
+      background: radial-gradient(circle, rgba(211, 84, 0, 0.6) 0%, rgba(142, 68, 173, 0.3) 40%, rgba(17, 17, 17, 0) 70%);
+      z-index: 0;
+      border-radius: 50%;
+      animation: pulse 3s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+      100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    }
+
+    .hero-logo {
+      width: 250px;
+      max-width: 80%;
+      position: relative;
+      z-index: 1;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .hero-copy {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .hero-subcopy {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    /* =========================================
+       About Section
+       ========================================= */
+    .about-content {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 2rem;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .about-text h3 {
+      color: var(--color-main);
+      font-size: 1.4rem;
+    }
+
+    /* =========================================
+       Menu Section
+       ========================================= */
+    .menu-card {
+      background: #1A1A1A;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .menu-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .menu-details {
+      padding: 1.5rem;
+    }
+
+    .menu-title {
+      font-size: 1.2rem;
+      color: var(--color-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+
+    .menu-options {
+      background: #0a0a0a;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .option-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .option-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.2);
+    }
+
+    .spice-level {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+
+    .spice-indicator {
+      display: inline-block;
+      width: 20%;
+      height: 8px;
+      background: #333;
+      margin-right: 2px;
+    }
+    .spice-indicator.active { background: var(--color-main); }
+    .spice-indicator.active-danger { background: #c0392b; }
+
+    /* =========================================
+       Schedule Section
+       ========================================= */
+    .truck-image {
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .schedule-list {
+      background: #1A1A1A;
+      padding: 1.5rem;
+      border-radius: 15px;
+    }
+
+    .schedule-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .schedule-item:last-child { border-bottom: none; }
+    
+    .schedule-date {
+      color: var(--color-main);
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .insta-placeholder {
+      background: #1A1A1A;
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+      color: var(--color-text-muted);
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* =========================================
+       Contact Section & Footer
+       ========================================= */
+    .contact-wrapper {
+      text-align: center;
+    }
+
+    .sns-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .sns-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #333;
+      font-size: 1.5rem;
+      transition: all 0.3s;
+    }
+
+    .sns-btn:hover {
+      background: var(--color-main);
+      transform: scale(1.1);
+    }
+
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto;
+      background: #1A1A1A;
+      padding: 2rem;
+      border-radius: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background: #0a0a0a;
+      color: #fff;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 2rem 0;
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* =========================================
+       Media Queries (PC View)
+       ========================================= */
+    @media (min-width: 768px) {
+      .hero-copy { font-size: 2.5rem; }
+      .hero-cta { flex-direction: row; max-width: 600px; justify-content: center; }
+      
+      .menu-card { display: flex; }
+      .menu-image { width: 50%; height: auto; }
+      .menu-details { width: 50%; display: flex; flex-direction: column; justify-content: center; }
+      
+      .options-grid { grid-template-columns: 1fr 1fr; }
+      .schedule-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-logo">Soup Curry SORA</div>
+    <ul class="nav-links">
+      <li><a href="#about">こだわり</a></li>
+      <li><a href="#menu">メニュー</a></li>
+      <li><a href="#schedule">スケジュール</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section id="hero">
+      <div class="hero-halo fade-in">
+        <img src="https://raw.githubusercontent.com/sk19690228-sketch/soup-curry/main/logo.jpg" alt="Soup Curry SORA Logo" class="hero-logo">
+      </div>
+      
+      <h1 class="hero-copy fade-in">熱帯の夜風に香る、<br>極上のスパイス。<br>熱狂のナイトマーケットが、<br>今ここに。</h1>
+      <p class="hero-subcopy fade-in">豚骨ベースのこってり系スープカレー・キッチンカー</p>
+      
+      <div class="hero-cta fade-in">
+        <a href="#schedule" class="btn">今月の出店場所を見る</a>
+        <a href="#schedule" class="btn btn-accent">来月の出店場所を見る</a>
+      </div>
+    </section>
+
+    <section id="about" class="container">
+      <div class="section-title-wrapper fade-in">
+        <h2>About Us</h2>
+      </div>
+      <div class="about-content fade-in">
+        <div class="about-text">
+          <h3>唯一無二の「こってり」スープカレー</h3>
+          <p>当店「Soup Curry SORA」のスープは、じっくりと時間をかけて炊き出した<strong>豚骨ベース</strong>。一般的なあっさりとしたスープカレーとは一線を画す、濃厚でパンチの効いた深い旨味が特徴です。</p>
+          <p>東南アジアの熱気を思わせる独自配合のスパイスが、豚骨のコクと絶妙に絡み合い、一度食べたらやみつきになる一杯に仕上げました。具材には素揚げした色鮮やかな野菜と、香ばしくローストしたお肉を使用。イベントの興奮とともに、スパイスの魔法をお楽しみください。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="container">
+      <div class="section-title-wrapper fade-in">
+        <h2>Menu</h2>
+      </div>
+      
+      <div class="menu-card fade-in">
+        <img src="https://raw.githubusercontent.com/sk19690228-sketch/soup-curry/main/chicken.jpg" alt="ローストした鶏モモ肉と盛沢山の野菜と半熟ゆで卵のスープカレー" class="menu-image">
+        <div class="menu-details">
+          <h3 class="menu-title">ローストした鶏モモ肉と盛沢山の野菜と<br>半熟ゆで卵のスープカレー</h3>
+          <div class="menu-price">¥1,200 <span style="font-size: 0.8rem; color: #B0B0B0; font-weight: normal;">(税込)</span></div>
+          <p>皮はパリッと、中はジューシーにローストした大ぶりの鶏モモ肉。スパイスの効いた豚骨スープをたっぷり吸い込んだ素揚げ野菜と、とろける半熟ゆで卵の相性は抜群です。</p>
+        </div>
+      </div>
+
+      <div class="menu-options fade-in">
+        <div class="options-grid">
+          <div>
+            <h3 style="color: var(--color-accent); font-size: 1.2rem;">Toppings</h3>
+            <ul class="option-list">
+              <li>チーズ <span style="float: right;">+¥150</span></li>
+              <li>納豆 <span style="float: right;">+¥100</span></li>
+              <li>ブロッコリー <span style="float: right;">+¥150</span></li>
+              <li>オクラ <span style="float: right;">+¥100</span></li>
+              <li>ゆで玉子 <span style="float: right;">+¥100</span></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 style="color: var(--color-main); font-size: 1.2rem;">辛さレベル</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: #B0B0B0;">お好みのスパイス感をお選びください。</p>
+            <ul class="option-list">
+              <li>1. 辛くない (マイルド) <div class="spice-level"><span class="spice-indicator active"></span><span class="spice-indicator"></span><span class="spice-indicator"></span><span class="spice-indicator"></span><span class="spice-indicator"></span></div></li>
+              <li>2. ちょい辛 (中辛程度) <div class="spice-level"><span class="spice-indicator active"></span><span class="spice-indicator active"></span><span class="spice-indicator"></span><span class="spice-indicator"></span><span class="spice-indicator"></span></div></li>
+              <li>3. 辛い (おすすめ！) <div class="spice-level"><span class="spice-indicator active"></span><span class="spice-indicator active"></span><span class="spice-indicator active"></span><span class="spice-indicator"></span><span class="spice-indicator"></span></div></li>
+              <li>4. 大辛 (スパイス好きに) <div class="spice-level"><span class="spice-indicator active"></span><span class="spice-indicator active"></span><span class="spice-indicator active"></span><span class="spice-indicator active"></span><span class="spice-indicator"></span></div></li>
+              <li>5. 激辛 (自己責任で...) <div class="spice-level"><span class="spice-indicator active-danger"></span><span class="spice-indicator active-danger"></span><span class="spice-indicator active-danger"></span><span class="spice-indicator active-danger"></span><span class="spice-indicator active-danger"></span></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule" class="container">
+      <div class="section-title-wrapper fade-in">
+        <h2>Schedule & Location</h2>
+      </div>
+
+      <img src="https://raw.githubusercontent.com/sk19690228-sketch/soup-curry/main/Food%20Truck.jpg" alt="Soup Curry SORA Food Truck" class="truck-image fade-in">
+
+      <div class="schedule-grid">
+        <div class="schedule-list fade-in">
+          <h3 style="color: var(--color-main);">今週の出店スケジュール</h3>
+          <div class="schedule-item">
+            <div class="schedule-date">10/12 (土) 11:00 - 19:00</div>
+            <div>〇〇秋祭りフェスティバル (代々木公園)</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-date">10/13 (日) 10:00 - 17:00</div>
+            <div>ファーマーズマーケット (〇〇駅前広場)</div>
+          </div>
+          <div class="schedule-item">
+            <div class="schedule-date">10/18 (金) 18:00 - 22:00</div>
+            <div>ナイトマーケットTOKYO (〇〇広場)</div>
+          </div>
+        </div>
+
+        <div class="insta-placeholder fade-in">
+          <div>
+            <svg style="width:48px;height:48px;margin-bottom:10px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
+            </svg>
+            <p>ここにInstagramの埋め込み投稿が表示されます。<br><span style="font-size: 0.8rem;">(Scriptタグなどを使用して最新の投稿を自動表示)</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <div class="section-title-wrapper fade-in">
+        <h2>Contact</h2>
+      </div>
+
+      <div class="contact-wrapper fade-in">
+        <p>最新情報は各SNSで発信中！フォローよろしくお願いします。</p>
+        <div class="sns-links">
+          <a href="#" class="sns-btn" aria-label="Instagram">
+            <svg style="width:30px;height:30px" viewBox="0 0 24 24">
+              <path fill="#fff" d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
+            </svg>
+          </a>
+          <a href="#" class="sns-btn" aria-label="X (Twitter)">
+            <svg style="width:30px;height:30px" viewBox="0 0 24 24">
+              <path fill="#fff" d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16.02 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="contact-form">
+          <h3 style="margin-bottom: 1.5rem;">イベントへの出店依頼はこちら</h3>
+          <form onsubmit="event.preventDefault(); alert('お問い合わせを受け付けました。（デモ用）');">
+            <div class="form-group">
+              <label for="name">お名前 / 企業名</label>
+              <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">メールアドレス</label>
+              <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+              <label for="message">イベント詳細・ご用件</label>
+              <textarea id="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn" style="width: 100%;">送信する</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="padding: 2rem 0;">
+      &copy; 2026 Soup Curry SORA. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Intersection Observer for Fade-in Animations
+      const faders = document.querySelectorAll('.fade-in');
+      
+      const appearOptions = {
+        threshold: 0.15, // 要素が15%表示されたら発火
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            return;
+          } else {
+            entry.target.classList.add('appear');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, appearOptions);
+
+      faders.forEach(fader => {
+        appearOnScroll.observe(fader);
+      });
+
+      // スムーススクロール時のヘッダー高さオフセット調整
+      const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
+      
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+  
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
